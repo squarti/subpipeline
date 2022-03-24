@@ -22,10 +22,10 @@ spec:
           echo "Deploying to $CLUSTER";
           sleep 2s;
           echo "Small Pause!";
-          sleep 10s;
+          sleep 12s;
           echo "Done!";
           for i in {1..2} ; do
           echo "Round $i";
           ls;
-          sleep 5s;
+          sleep 12s;
           done
