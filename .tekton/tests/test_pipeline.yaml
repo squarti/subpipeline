@@ -18,7 +18,6 @@ spec:
       - name: task-pvc
         workspace: pipeline-pvc  
     - name: run-api-tests
-      runAfter: [run-e2e-tests]
       taskRef:
         name: run-api-tests
       workspaces:
