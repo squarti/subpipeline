@@ -24,8 +24,8 @@ spec:
           echo "Small Pause!";
           sleep 12s;
           echo "Done!";
-          for i in {1..2} ; do
+          for i in {1..5} ; do
           echo "Round $i";
           ls;
-          sleep 12s;
+          sleep 5s;
           done
