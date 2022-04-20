@@ -10,6 +10,7 @@ spec:
   - name: pipeline-pvc
   tasks:  
     - name: deploy-with-kubectl
+      retries: 1
       taskRef:
         name: deploy-with-kubectl
       params:
