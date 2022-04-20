@@ -32,8 +32,6 @@ spec:
           then
             echo "Time to Quit!"
             exit 1;
-          else
-            echo "Not this time $theval"
           fi
           sleep 1s;
           done
