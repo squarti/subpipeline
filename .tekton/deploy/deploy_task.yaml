@@ -22,10 +22,18 @@ spec:
           echo "Deploying to $CLUSTER";
           sleep 2s;
           echo "Small Pause!";
-          sleep 3s;
+          sleep 1s;
           echo "Done!";
-          for i in {1..2} ; do
+          for i in {1..10} ; do
           echo "Round $i";
           ls;
-          sleep 5s;
+          theval=$(( ( RANDOM % 10 )  + 1 ))
+          if [ $theval -gt 5 ]
+          then
+            echo "Time to Quit!"
+            exit 1;
+          elif
+            echo "Not this time $theval"
+          fi
+          sleep 1s;
           done
