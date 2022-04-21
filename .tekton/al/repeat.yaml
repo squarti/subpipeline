@@ -1,0 +1,110 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: task1
+spec:
+  steps:
+    - name: task-one-step-one
+      image: ubuntu
+      command: ["/bin/bash"]
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath
+    - name: task-one-step-two
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;']
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: task2
+spec:
+  steps:
+    - name: task-one-step-one
+      image: ubuntu
+      command: ["/bin/bash"]
+      args: ['-c', 'date +"%T" && sleep 2']
+    - name: task-one-step-two
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', '[[ $((1 + RANDOM % 3)) == 1 ]] && echo Some logs || fail']
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: xysk
+spec:
+  steps:
+    - name: task-one-step-one
+      image: ubuntu
+      command: ["/bin/bash"]
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath
+    - name: task-one-step-two
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;']
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: aaab
+spec:
+  steps:
+    - name: task-one-step-one
+      image: ubuntu
+      command: ["/bin/bash"]
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath
+    - name: task-one-step-two
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;']
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: 999-working-logs-long
+spec:
+  tasks:
+  - name: task1
+    taskRef:
+      name: task1
+  - name: task2
+    retries: 5
+    taskRef:
+      name: task2
+  - name: xysk
+    taskRef:
+      name: xysk
+  - name: aaab
+    taskRef:
+      name: aaab
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: retries-pipeline-template
+spec:
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: retries-cutting-down-trees-run
+      spec:
+        pipelineRef:
+          name: 999-working-logs-long
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: manual-retries-pipeline-binding
+spec:
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: manual-retries-listener
+spec:
+  triggers:
+    - binding:
+        name: manual-retries-pipeline-binding
+      template:
+        name: retries-pipeline-template
