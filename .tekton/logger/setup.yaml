@@ -1,0 +1,97 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: clone
+spec:
+  steps:
+    - name: git-clone
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', '##REPLACE##'] 
+    - name: secret-resolve
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', '##REPLACE##']
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: kustomize
+spec:
+  steps:
+    - name: kustomization
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', '##REPLACE##'']
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: triggers
+spec:
+  steps:
+    - name: trigger-processing
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', '##REPLACE##'] 
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: create
+spec:
+  steps:
+    - name: tekton-create
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', '##REPLACE##']
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: setup-pipeline
+spec:
+  tasks:
+  - name: clone
+    taskRef:
+      name: clone
+  - name: kustomize
+    taskRef:
+      name: kustomize
+  - name: triggers
+    taskRef:
+      name: triggers
+  - name: create
+    taskRef:
+      name: create
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: setup-template
+spec:
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: setup-run
+      spec:
+        pipelineRef:
+          name: setup-pipeline
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: setup-binding
+spec:
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: setup-listener
+spec:
+  triggers:
+    - binding:
+        name: setup-binding
+      template:
+        name: setup-template
