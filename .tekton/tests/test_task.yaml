@@ -100,7 +100,7 @@ spec:
       command: ["/bin/bash", "-c"]
       args:
         - set -e -o pipefail;
-          for i in {0..3};
+          for i in {0..0};
           do
             echo "Running API tests...";
             env;
