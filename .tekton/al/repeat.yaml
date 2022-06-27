@@ -7,11 +7,11 @@ spec:
     - name: task-one-step-one
       image: ubuntu
       command: ["/bin/bash"]
-      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && hostname && sleep 1; done;'] # tests that targetpath
     - name: task-one-step-two
       image: ubuntu
       command: ['bash']
-      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;']
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && hostname && sleep 1; done;']
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -26,7 +26,7 @@ spec:
     - name: task-one-step-two
       image: ubuntu
       command: ['bash']
-      args: ['-c', '[[ $((1 + RANDOM % 3)) == 1 ]] && echo Some logs || fail']
+      args: ['-c', '[[ $((1 + RANDOM % 3)) == 1 ]] && echo "Some logs $HOSTNAME" || hostname; fail']
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -37,11 +37,11 @@ spec:
     - name: task-one-step-one
       image: ubuntu
       command: ["/bin/bash"]
-      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && hostname && sleep 1; done;'] # tests that targetpath
     - name: task-one-step-two
       image: ubuntu
       command: ['bash']
-      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;']
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && hostname && sleep 1; done;']
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -52,11 +52,11 @@ spec:
     - name: task-one-step-one
       image: ubuntu
       command: ["/bin/bash"]
-      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && hostname && sleep 1; done;'] # tests that targetpath
     - name: task-one-step-two
       image: ubuntu
       command: ['bash']
-      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;']
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && hostname && sleep 1; done;']
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
