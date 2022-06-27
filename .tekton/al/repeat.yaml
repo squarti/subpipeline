@@ -22,7 +22,7 @@ spec:
     - name: task-one-step-one
       image: ubuntu
       command: ["/bin/bash"]
-      args: ['-c', 'date +"%T" && sleep 2']
+      args: ['-c', 'date +"%T" && hostname && sleep 2']
     - name: task-one-step-two
       image: ubuntu
       command: ['bash']
