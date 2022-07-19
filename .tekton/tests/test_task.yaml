@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: run-e2e-testsxx
+  name: run-e2e-tests
 spec: 
   workspaces:
   - name: task-pvc
